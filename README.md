@@ -1,15 +1,20 @@
 ##Understanding Javascript
 
-
-Notes from Undemy Course **JavaScript: Understanding the Weird Parts**
+Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 
 [Udemy Course Here](https://www.udemy.com/understand-javascript/learn/v4/overview)
 
 ###Big Words
 
 * **Syntax Parsers** - A program that reads your code and determines what it does and if its grammar/syntax is valid. Combs through you code character by character.
-* **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script.
+* **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
+  * **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
+  * **Execution Phase** - This is when the code actually runs.
 * **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code. 
+* **Single Threaded** - One command is being executed at a time
+* **Synchronous Execution** - One at a time in order
+* **Invocation** - Running a function
+* **Variable Environments** - Where the variables live and how they relate to each other in memory
 
 
 ###Objects
@@ -63,5 +68,103 @@ Notice below that a comes backed undefined. That doesn't' mean it doesn't exist 
 
 ```
 
-* **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
-* **Execution Phase** - This is when the code actually runs.
+
+###Undefined vs "Is not defined"
+
+*undefined* and *is not defined* are not the same. `undefined` happens when a variable exists but no value has been set yet. `is not defined` happens when a variable does not exist in the **Memory Space**.
+
+Consider the below examples:
+
+```
+console.log(a);
+
+// Uncaught ReferenceError: x is not defined
+
+```
+```
+var a;
+console.log(a);
+
+// undefined
+
+```
+
+```
+var a;
+console.log(a);
+
+a = "Hello World"
+
+// undefined
+
+```
+
+Note NEVER set a variable to *undefined* yourself, this will make things extremely difficult to debug. Even though it is valid JS to do `a = undefined` it is really bad practice to do so.
+
+
+###Function Evocation and The Execution Stack
+
+
+Whenever you Invoke a function a new *Execution Context* is created and added to the *Execution Stack*. Whatever is at the top of the *Execution Stack* is what is currently running.
+
+```
+function a() {
+	b();
+	var c;
+	console.log(e);
+}
+
+function b() {
+	var d;
+}
+
+a();
+var e = 'hello';
+
+```
+
+1. The functions and variables are put into the **Memory Space** that are within scope (not inside a function), this is the **Creation Phase**
+2. **Execution Phase** begins, the first line read is invoking `a()`
+3. `a` is added to the **Execution Stack** and is at the top of the stack
+4. `b()` is called and now b is at the top of the **execution stack**
+5. `var d` if defined to undefined
+6. `b()` is popped off the top of the **execution stack**, and now `a` continues to execute
+7. `c` is declared to *undefined*
+8. `e` at this point is equal to *undefined* because the variable exists but the value `hello` hasn't been set yet since `a()` was called
+9. `a` finishes execution and is popped off of the **execution stack**
+10. Lastly, `e` is defined to `hello`
+
+
+###Functions, Context, Variable Environments
+
+Variable Environments are where variables live
+
+
+```
+function b() {
+	var myVar;
+}
+
+function a() {
+	var myVar = 2;
+	b();
+}
+
+var myVar = 1;
+a();
+
+console.log(myVar)
+
+```
+
+In the above example, `myVar` is declared 3 times but each within it's own scope. 
+
+1. Hoisting of variable names and functions
+2. `myVar` is set to `1` within the *Global Scope*
+3. `a()` is called a new *Execution Context* is created within the `a` function and `a` is added to the *Execution Stack*
+4. `myVar` is declared within the `a` scope and set to `2`. This is set to 2 inside of the function, but `myVar` still exists outside in the global scope and is still set to 1 there
+5. `b()` is called and add to the *Execution Stack*
+6. `myVar` is defined to *undefined* within `b`'s scope
+7. `b` ends and is popped of the *Execution Stack*
+8. `a` continues and ends because there is no code after `b()` is called
+9. Lastly, `myVar` is logged at the end, and it is still equal to `1` since the other `myVar`s existed within their own scope
