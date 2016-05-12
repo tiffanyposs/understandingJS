@@ -6,15 +6,18 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 
 ###Big Words
 
-* **Syntax Parsers** - A program that reads your code and determines what it does and if its grammar/syntax is valid. Combs through you code character by character.
+* **Asynchronous** - More than one at a time.
 * **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
   * **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
   * **Execution Phase** - This is when the code actually runs.
-* **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code. 
+* **Invocation** - Running a function
+* **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code.
+* **Scope** - Where a variable is available in your code.
 * **Single Threaded** - One command is being executed at a time
 * **Synchronous Execution** - One at a time in order
-* **Invocation** - Running a function
+* **Syntax Parsers** - A program that reads your code and determines what it does and if its grammar/syntax is valid. Combs through you code character by character.
 * **Variable Environments** - Where the variables live and how they relate to each other in memory
+
 
 
 ###Objects
@@ -168,3 +171,122 @@ In the above example, `myVar` is declared 3 times but each within it's own scope
 7. `b` ends and is popped of the *Execution Stack*
 8. `a` continues and ends because there is no code after `b()` is called
 9. Lastly, `myVar` is logged at the end, and it is still equal to `1` since the other `myVar`s existed within their own scope
+
+
+###The Scope Chain
+
+Every contextual environment can reference it's outer environment. If a variable is not defined within a functions it will then look for it outside of it's environment to see if it exists there.
+
+The **Scope Chain** is asking *"Where can I find this variable?"* and it keeps checking up chain until it finds a reference.
+
+Below the log will be `1` because `b` will reference the global declaration of `myVar`.
+
+```
+function b() {
+	console.log(myVar);
+}
+
+function a() {
+	var myVar = 2;
+	b();
+}
+
+var myVar = 1;
+a();
+
+// 1
+
+```
+
+But if we put `b` inside of `a` the output will be `2`. Because when `myVar` is not found within b's environment, in moves up to the next environment, which is a's environment. There is finds `myVar`.
+
+```
+function a() {
+
+  function b() {
+	console.log(myVar);
+  }
+
+  var myVar = 2;
+  b();
+}
+
+var myVar = 1;
+a();
+
+// 2
+
+```
+
+
+###Scope, ES6, and let
+
+ES6, ECMAscript 6, or Javascript 2015
+
+
+####let
+
+`let` is a new way to declare a variable. `let` does not let you use a variable that appears after, i.e. will throw an error instead of returning *undefined* because of hoisting. Also, let will be unique within **blocks**, aka *curly brackets*. This is called **block scoping**
+
+Consider the below example, `let c` is a variable, the first console.log would throw an error instead of returning *undefined* because of hoisting. The second console.log would work, but because of the error it would not continue. The third console.log would also be an error, because `c` would not be an available variable outside of the if statement.
+
+If the `let` in this example was a `var`, there would be no errors and the output would be *undefined*, 100, 100
+
+```
+var a = 10;
+var b = 3;
+
+if (a > b) {
+  //error
+  console.log(c)
+	
+  let c = 100;
+  console.log(c)
+	
+}
+
+//error
+console.log(c)
+
+
+```
+
+`let` is beneficial because it's more strict because it forces you to write your variable in a proper way, and allows you to have a variable contained within curly brackets that is within it's own scope.
+
+Below is another example, if you use `let` within a for loop that variable will only be available within the loop. The program would error on the second console.log.
+
+```
+for(let y = 0; y < 10; y++) {
+	console.log(y)
+}
+
+//error
+console.log(y)
+
+```
+
+
+###Asynchronous Callbacks
+
+Sometimes asynchronous event swill happen such as ajax calls and click events. When these thing happen they are added to the **Event Queue**. First he js code will finish running, then the events from he *event queue* will run after the js is complete.
+
+The below example, if you click during the 3 second wait, the click event won't trigger until after the `waitThreeSeconds` function completes.
+
+```
+function waitThreeSeconds() {
+	var ms = 3000 + new Date().getTime();
+	while (new Date() < ms){}
+	console.log('finished function')
+}
+
+function clickHandler() {
+	console.log('click event')
+}
+
+document.addEventListener('click', clickHandler);
+
+waitThreeSeconds();
+console.log('finished execution');
+
+
+```

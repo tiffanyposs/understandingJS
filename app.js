@@ -1,13 +1,14 @@
-function b() {
-	var myVar;
+function waitThreeSeconds() {
+	var ms = 3000 + new Date().getTime();
+	while (new Date() < ms){}
+	console.log('finished function')
 }
 
-function a() {
-	var myVar = 2;
-	b();
+function clickHandler() {
+	console.log('click event')
 }
 
-var myVar = 1;
-a();
+document.addEventListener('click', clickHandler);
 
-console.log(myVar)
+waitThreeSeconds();
+console.log('finished execution');
