@@ -330,3 +330,26 @@ var b = x(2, 3)
 **Operator Precedence** is what *operator* gets called first and associativity is if it is read right-to-left or left-to-right. Below find a link with more information.
 
 [Operator Precedence MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
+
+Below is a good example of **associativity**. All the variables end up being `4`, this is because `=` *associativity* is `right-to-left`. So it sets c = b, then b = a.
+
+```
+var a = 2, b = 3, c = 4;
+
+a = b = c;
+
+console.log(a); // 4
+console.log(b); // 4
+console.log(c); // 4
+
+```
+Also `(...)` wrapping groupings in parentheses has the highest *precedence*. Note how it can make a big difference.
+
+```
+var a = 2 + 3 * 5;
+var b = (2 + 3) * 5;
+
+console.log(a); //17
+console.log(b); //25
+
+```
