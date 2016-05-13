@@ -6,12 +6,23 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 
 ###Big Words
 
+* **Associativity** - What order *operator* functions get called in (left-to-right or right-to-left)
 * **Asynchronous** - More than one at a time.
+* **Dynamic Typing** - You don't tell the engine what type of data a variable holds, it figures it out while your code is running. This means you don't have tell the code what datatype it's supposed to be.
 * **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
   * **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
   * **Execution Phase** - This is when the code actually runs.
 * **Invocation** - Running a function
 * **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code.
+* **Operator** - A special function that is syntactically (written) different. Generally take two params and return one result. i.e. `1 + 2`
+* **Operator Precedence** - Which *operator* gets called first
+* **Primitive Type** - A type of data that represents a single value (not an object)
+  * *undefined* - a lack of existence (you should not set a variable to this)
+  * *null* - a lack of existence (you can set a variable to this)
+  * *boolean* - *true* or *false*
+  * *number* - floating point number. 
+  * *string* - sequence of characters
+  * *symbol* - for ES6 and not widely used... yet...
 * **Scope** - Where a variable is available in your code.
 * **Single Threaded** - One command is being executed at a time
 * **Synchronous Execution** - One at a time in order
@@ -290,3 +301,32 @@ console.log('finished execution');
 
 
 ```
+
+
+###Types and JavaScript
+
+Javascript has different *types* of values. JS uses *dynamic typing* to determine what the value type of a variable is. This means you don't have to set the variable type when you create the variable, and you're allowed to save over a value with a different *type*. The **primitive types** are `undefined, null, boolean, number, string, and symbol`.
+
+###Operators
+
+Operators used `infix notation`. Essentially operators like `+` and `-` are like regular function but they use `infix notation`. Imagine writing a function named `+(2, 3)`, but instead we are writing it in *infix notation* so it looks like this `2 + 3`.
+
+See the *sudo* code below.
+
+```
+var a = 2 + 3;
+
+function +(num1, num2) {
+  //write code to add the numbers
+  return sum
+}
+
+var b = x(2, 3)
+
+```
+
+####Operator Precedence and Associativity
+
+**Operator Precedence** is what *operator* gets called first and associativity is if it is read right-to-left or left-to-right. Below find a link with more information.
+
+[Operator Precedence MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)

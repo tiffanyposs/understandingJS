@@ -1,14 +1,8 @@
-function waitThreeSeconds() {
-	var ms = 3000 + new Date().getTime();
-	while (new Date() < ms){}
-	console.log('finished function')
+function add(num1, num2) {
+	return num1 + num2
 }
 
-function clickHandler() {
-	console.log('click event')
-}
 
-document.addEventListener('click', clickHandler);
+var test = num1 add num2;
 
-waitThreeSeconds();
-console.log('finished execution');
+console.log(test);
