@@ -1,5 +1,5 @@
-var a = 2 + 3 * 5;
-var b = (2 + 3) * 5;
+var a = 1 < 2 < 3;
+console.log(a); // true
 
-console.log(a); //17
-console.log(b); //25
+var b = 3 < 2 < 1;
+console.log(b); // true

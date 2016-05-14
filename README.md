@@ -8,6 +8,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 
 * **Associativity** - What order *operator* functions get called in (left-to-right or right-to-left)
 * **Asynchronous** - More than one at a time.
+* **Coercion** - Converting a value from one type to another
 * **Dynamic Typing** - You don't tell the engine what type of data a variable holds, it figures it out while your code is running. This means you don't have tell the code what datatype it's supposed to be.
 * **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
   * **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
@@ -351,5 +352,120 @@ var b = (2 + 3) * 5;
 
 console.log(a); //17
 console.log(b); //25
+
+```
+
+###Coercion
+
+This is converting a value from one type to another. 
+
+In the below example the `1` was coerced into a string, thats why the result ends up being 12 and not 3. The JS engine sees the string and the number and it decides to convert (coerce) the number into a string. It's *Best Guess*
+
+```
+var a = 1 + "2" //"12" 
+
+```
+
+####Comparison Operators
+
+Coercion also happens with comparison operators. Take the below two examples. They both end up being true, but when we read the expressions our brains think a is going the be true and b is going to be false. The less than operator reads left to right. See below explications
+
+```
+var a = 1 < 2 < 3;
+console.log(a); // true
+
+var b = 3 < 2 < 1;
+console.log(b); // true
+
+```
+
+* `a` is set to `1 < 2 < 3`
+* `<` reads left-to-right so first it converts this to `true < 3` because 1 is less than 2 it sets that part to true
+* Now it evaluates if `true < 3`, true is not a number so JS tries to coerce it into a number. Since its a boolean, it will convert it to `1`
+* Now we have `1 < 3` which is true
+* `a = true` since one is less than 3
+
+
+The same thought process can be applied to the second expression that ends up being true as well.
+
+* `b` is set to `3 < 2 < 1`
+* `3 < 2` is false
+* `false < 1` becomes `0 < 1` since false is coerced into a number which is 0;n
+* `b = true` since zero is less than one.
+
+#####Type functions
+
+You can use type functions to play around with coercion in the console, although they aren't recommended in actual JS code.
+
+```
+Number(false) // 0
+Number("10") // 10
+Number(true) // 1
+
+```
+
+####NaN
+
+*Not a Number*. This is the JavaScript engine trying to convert something to a number and saying, I can't convert it to a number
+
+```
+Number(undefined) // NaN
+Number("hello")  // NaN
+Number(null) // 0
+
+```
+
+###Equality
+
+[Equality Comparisons and Sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+
+`==` and `===` have different meanings. `==` will try to coerce the types of the values it's given to be the same type then compare them, while `===` does not. `===` is almost always recommended.
+
+####Double Equals
+
+`==` can have some strange behaviors, often it tries to coerce the types into the same type in order to compare them.
+
+See the examples below where `==` has a very loose meaning.
+
+```
+3 == 3 // true
+"3" == 3 // true
+false == 0 // true
+
+var a = false;
+a == 0 // true
+
+```
+
+#####Null
+
+Null does not coerce for equality statements but does for comparison statements. Even through *null* coerces to 0, when it comes to equality it does not coerce. Same with *undefined*.
+
+```
+var a = Number(null) // 0
+
+null < 1   // true
+null == 0  // false
+
+
+```
+#####Empty Strings
+
+Also empty strings act weird.
+
+```
+"" == 0      // true
+"" == false  //true
+
+```
+
+####Triple Equals
+
+`===` does not coerce it's values.
+
+```
+3 === 3      // true
+"3" === "3"  // true
+3 === "3"    // false
 
 ```
