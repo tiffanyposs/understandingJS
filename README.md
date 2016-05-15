@@ -526,3 +526,114 @@ greet("Joe"); // "Hello Joe"
 ```
 
 This works because `||` reads left-to-right and returns the first item that is true, but does not convert it to true.
+
+###Global Namespace with Multiple Files
+
+When you have multiple js files linked in your html file, they are all in the same namespace sharing variables. Often you will see something like this in library codes that are checking for variable names in the global namespace. This will prevent a script that is running after from overriding an existing variable from another file. This also makes debugging easier. 
+
+```
+window.libraryName = window.libraryName || "Lib 2"
+
+```
+
+
+##Objects and Functions
+
+###Objects
+
+An object can hold all different types of types as its values inside
+
+* Primitive "property" (boolean, string, etc)
+* Object "property"
+* Function "method"
+
+The way these are saved in memory is that the object has reference codes of where the different properties are saved.
+
+See below we explore how to set strings inside of an object, and three ways to call them: with brackets and variable, with brackets and the property name, and dot notation with the property name.
+
+*Note* this is not the best way to make an object. Best way to follow.
+
+```
+var person = new Object();
+
+person["firstname"] = "Tiffany";
+person["lastname"] = "Poss";
+
+var firstNameProperty = "firstname";
+
+console.log(person[firstNameProperty]);
+console.log(person["firstname"]);
+console.log(person.firstname);
+
+```
+
+* `[...]` - Called *Computed Member Access*
+* `.` - Called *Member Access*
+
+We could also add an object as the value within the above person object:
+
+```
+person.address = new Object();
+person.address.street = "111 Main Street";
+person.address.zipcode = "90210"
+
+```
+
+####Object Literals
+
+Another way to set an object is by simply setting a variable to an empty object, this is called an *Object Literal*
+
+```
+var a = {};
+
+```
+
+You can also initialize the object:
+
+```
+var person = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	address: {
+		street: "111 Main Street",
+		city: "New York",
+		state: "NY"
+	}
+}
+
+```
+
+
+Take it one step further you can pass an object as a param and access it. 
+
+```
+var Tiffany = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	address: {
+		street: "111 Main Street",
+		city: "New York",
+		state: "NY"
+	}
+}
+
+
+function greet(person) {
+	console.log("Hello " + person.firstname);
+}
+
+greet(Tiffany);
+
+```
+
+You could also make an object on the fly and call greet like this:
+
+```
+greet({ 
+	firstname: "Tiffany", 
+	lastname: "Poss"
+})
+
+```
+
+###Faking Namespace

@@ -1,5 +1,16 @@
-function greet(name) {
-  console.log("Hello ", name);
+var Tiffany = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	address: {
+		street: "111 Main Street",
+		city: "New York",
+		state: "NY"
+	}
 }
 
-greet();
+
+function greet(person) {
+	console.log("Hello " + person.firstname);
+}
+
+greet(Tiffany)
