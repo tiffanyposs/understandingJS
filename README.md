@@ -461,7 +461,7 @@ Also empty strings act weird.
 
 ####Triple Equals
 
-`===` does not coerce it's values.
+`===` does not coerce it's values. This is the better choice when it comes to 
 
 ```
 3 === 3      // true
@@ -469,3 +469,60 @@ Also empty strings act weird.
 3 === "3"    // false
 
 ```
+
+
+###Booleans
+
+You can also play in the console using `Boolean()`, although this isn't recommended in real code.
+
+Below you can see that Boolean will convert all of these *lack of value* values to false. We can use that to our advantage.
+
+```
+Boolean(undefined)  // false
+Boolean(null)  // false
+Boolean("")  // false
+
+```
+
+We can use it to our advantage because in things like if statements, where the value is being coerced into true/false values, we can depend that if `a` doesn't get defined, is null, or is an empty string, that the if statement won't run.
+
+Note - if there is any chance the value will be a `0` that will be false, and thats a problem.
+
+```
+var a;
+
+// go to the internet and set the value
+
+if(a) {
+  console.log("There's stuff there");
+}
+
+```
+
+###Default Values
+
+In JavaScript, unlike other programming languages, it doesn't care if you don't pass a parameter that is set up in the functions. See the below example we call `greet()` it won't throw an error, but it will set `name` to *undefined*. The interesting part is that the JS engine coerced the *undefined* value into a string when it saw the `+`.
+
+```
+function greet(name) {
+  console.log("Hello " + name);
+}
+
+greet(); // "Hello undefined"
+
+```
+
+In ES6 there will be a way to set values within the params itself, but all legacy code handles default values like this:
+
+```
+function greet(name) {
+  name = name || "<YOUR NAME HERE>"
+  console.log("Hello " + name);
+}
+
+greet(); // "Hello <YOUR NAME HERE>"
+greet("Joe"); // "Hello Joe"
+
+```
+
+This works because `||` reads left-to-right and returns the first item that is true, but does not convert it to true.
