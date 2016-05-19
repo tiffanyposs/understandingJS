@@ -13,8 +13,11 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 * **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
   * **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
   * **Execution Phase** - This is when the code actually runs.
+* **Expression** - a unit of code that results in a value.
+* **First Class Functions** - Everything you can do with other types you can do with functions. Assign variables, pass them around, create them on the fly.
 * **Invocation** - Running a function
 * **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code.
+* **Namespace** - a container for variables and functions.
 * **Operator** - A special function that is syntactically (written) different. Generally take two params and return one result. i.e. `1 + 2`
 * **Operator Precedence** - Which *operator* gets called first
 * **Primitive Type** - A type of data that represents a single value (not an object)
@@ -637,3 +640,138 @@ greet({
 ```
 
 ###Faking Namespace
+
+A *namespace* is a container for variables and functions. Objects come in handy here because you can have less exposed global variables. This helps prevent and conflicts in variable names.
+
+For Example: this might be an issue if these variable were in separate files, they would override each other
+
+```
+var greet = "Hello!";
+var greet = "Hola!";
+
+console.log(greet);
+
+```
+
+We could combat this issue by putting them into separate objects
+
+```
+var english = {
+	greet: "Hello!"
+};
+
+var spanish = {
+	greet: "Hola!"
+};
+
+console.log(english.greet);
+console.log(spanish.greet);
+
+```
+
+
+###JSON
+
+Stands for *JavaScript Object Notation*\
+
+Previously we used to use *XML*, which looked something like this:
+
+```
+  <object>
+	<firstname>Mary</firstname>
+	<lastname>Jane</lastname>
+  </object>
+
+```
+
+This took up a lot of bandwidth to send data this way. Then people realized that the JavaScript object seemed like a good way to format data going to the server and took up a lot less space/bandwidth. **JSON** looks like a javascript object, but it's wrapped in quotes because parcers expect it.
+
+```
+{
+  "firstname": "Mary",
+  "lastname": "Jane"
+}
+
+```
+
+In order to add these quotes you can use `JSON.stringify()` to covert the object into a valid JSON onject. To convert it back you can use `JSON.parse()`. These are called *Object Literal* and *JSON String* See examples below that covert between JSON and Objects.
+
+```
+var Tiffany = {
+  firstname: "Tiffany",
+  lastname: "Poss"
+}
+
+var jsonTiffany = JSON.stringify(Tiffany);
+
+var Mary = '{"firstname": "Mary", "lastname": "Jane" }';
+
+var objectMary = JSON.parse(Mary);
+
+console.log(jsonTiffany, objectMary)
+
+```
+
+###First Class Functions
+
+* **First Class Functions** - Everything you can do with other types you can do with functions. Assign variables, pass them around, create them on the fly.
+
+Functions are Objects with special properties. You can attach *Primatives*, Objects, or functions to it. It also has a name (which is optional, you can also have an anonymous function) and it has it's *code* property.
+
+
+####Expressions vs Statements
+
+An *expression* is a unit of code that results in a value. 
+
+`a = 3` and `1 + 2` are both *expressions*, and both return a value
+
+A *statement* is a unit of code that does not return / result in a value.
+
+`if(a === 3) { //do stuff }`, the if *statement*... is a *statement* but `a === 3` is an *expression* that returns a value
+
+Statement does work and expression results in a value
+
+
+####Function Statements and Function Expressions
+
+A *function statement* creates a function with a name and a code property, while a *function expression* is a variable set equal to an anonymous function (does not have a name) and also has a code property. 
+
+The biggest difference is that the *function statement* can be called above itself because statment is created in the *creation stage* and is hoisted to the top, while the *function expression* will be created as a variable set to undefined in the *creation stage*, and if called before that line of code the function will be *undefined*
+
+
+```
+greet(); // will work
+anonymousGreet(); // won't work - undefined
+
+//function statement
+function greet() {
+	console.log('hi')
+}
+
+//function expression
+var anonymousGreet = function() {
+	console.log('hi')
+}
+
+anonymousGreet(); //will work
+
+```
+
+You can pass functions all sorts of params, including another function:
+
+```
+
+function log(a) {
+	a()
+}
+
+log(function() {
+	console.log("hi")
+})
+
+```
+
+###By Value vs By Reference
+
+
+

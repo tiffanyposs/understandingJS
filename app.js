@@ -1,16 +1,20 @@
-var Tiffany = {
-	firstname: "Tiffany",
-	lastname: "Poss",
-	address: {
-		street: "111 Main Street",
-		city: "New York",
-		state: "NY"
-	}
+
+//function statement - is hoisted, has a name, and has a code property
+function greet() {
+	console.log('hi')
+}
+
+//function expression - is a function, does not have a name (nothing before the parateses), code property
+var anonymousGreet = function() {
+	console.log('hi')
 }
 
 
-function greet(person) {
-	console.log("Hello " + person.firstname);
+function log(a) {
+	// console.log(a());
+	a()
 }
 
-greet(Tiffany)
+log(function() {
+	console.log("hi")
+})
