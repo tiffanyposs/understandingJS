@@ -856,3 +856,102 @@ console.log(a, b);
 ###'this'
 
 
+`this` points to something different depending what scope it is in. `this` on the global level ends up being the `Window` object in the browser.
+
+In the below example `this` ends up being the `Window` object in all three cases.
+
+```
+console.log(this);
+
+function a() {
+	console.log(this);
+}
+
+var b = function() {
+	console.log(this);
+}
+a();
+b();
+
+```
+
+####Object method
+
+When `this` appears within a *method* inside of an object, `this` ends up being the object. below `c.log()` evokes the function and this ends up being the `c` object itself.
+
+```
+var c = {
+	name: "The c object",
+	log: function() {
+		console.log(this);
+	}
+}
+
+c.log();
+
+```
+
+Some people consider the below a bug. `this` in the log function is the `c` object. But if you add a function within the *method* `this` becomes the Window object again. So when you do `this.name = newname` seen here, you are actually setting a newname variable onto the Window object, and now altering the name withing the c object.
+
+```
+var c = {
+	name: "The c object",
+	log: function() {
+		this.name = "Updated c object"
+		console.log(this);
+		function setName(newname) {
+			this.name = newname;
+		}	
+		setName("Updated again");
+		console.log(this);	
+	}
+}
+
+c.log()
+
+```
+
+To combat *this* issue many developers will set a variable `self` to this within the top layer of the method, then use *self* instead of *this* throughout the method.
+
+```
+var c = {
+	name: "The c object",
+	log: function() {
+		var self = this;
+		self.name = "Updated c object"
+		console.log(self);
+		function setName(newname) {
+			self.name = newname;
+		}	
+		setName("Updated again");
+		console.log(self);	
+	}
+}
+
+c.log()
+
+```
+
+###Arrays
+
+JavaScript arrays can hold any *type* because of Js's *dynamic typing*. Not every programming language can do that. Below is a valid array:
+
+```
+var arr = [
+	1,
+	false,
+	{
+		name: "Tiffany",
+		address: "111 Main Street"
+	},
+	function(name) {
+		var greeting = "Hello";
+		console.log(greeting + " " + name)
+	},
+	"hello"
+];
+
+var greet = arr[3](arr[2].name);
+console.log(greet);
+
+```
