@@ -15,8 +15,10 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
   * **Execution Phase** - This is when the code actually runs.
 * **Expression** - a unit of code that results in a value.
 * **First Class Functions** - Everything you can do with other types you can do with functions. Assign variables, pass them around, create them on the fly.
+* **Immutable** - It cannot be changed.
 * **Invocation** - Running a function
 * **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code.
+* **Mutate** - To change something. "Mutate an Object"
 * **Namespace** - a container for variables and functions.
 * **Operator** - A special function that is syntactically (written) different. Generally take two params and return one result. i.e. `1 + 2`
 * **Operator Precedence** - Which *operator* gets called first
@@ -773,5 +775,84 @@ log(function() {
 
 ###By Value vs By Reference
 
+####By Value
+
+When you set a variable to the *primative* value of another variable, this takes up two spots in memory. Essetially a copy is made of the original value. The value is saved twice.
+
+In the example below both `a` and `b`, their values are both 1, but that value is saved in two memory spots. This is called *by value*
+
+```
+var a = 1;
+
+var b = a;
+
+```
+
+####By Reference
+
+Objects and functions (a type of object) will share spots in memory, the value is saved once. This means when you set a variable to a new variable, they will alter eachother if you alter one of them.
+
+See the example below. Variable `a` and `b` are both saved in the same location. When you alter `b`'s name to karl (*mutate* it), it will also alter `a`'s. This causes both `a` and `b` to have the same value even if just one of them is altered after creations. This is called *by reference*
+
+```
+var a = {
+	name: "tiffany",
+	age: 27
+}
+
+var b = a;
+
+b.name = "karl";
+
+```
+Also objects passed to functions will alter the original one. See below the function `changeGreeting` alters the object that is passed to it. But at the end of this script, `a`, `b`, and `obj` within scope all have a greeting of "Hola!". All of these variables point to the same spot in memory because they are objects.
+
+```
+var a = {
+	greeting: "Hello!"
+}
+
+var b;
+b = a;
+
+function changeGreeting(obj) {
+	obj.greeting = "Hola!";
+	console.log(obj);
+}
+
+changeGreeting(b);
+
+console.log(a, b);
+
+```
+
+Also note that even if two variables do share the same *memory space* at one point, if you set a variable to a new object, they will no longer share *memory space*.
+
+Below at the end a and be are different objects because we set b to a brand new object.
+
+```
+var a = {
+	greeting: "Hello!"
+}
+
+var b;
+
+b = a;
+// b and a share memory space.
+
+b.greeting = "Hola!"
+console.log(a, b);
+// b and a are now both equal to Hola!
+
+b = { greeting: "Howdy"};
+// b and a no longer share memory space
+
+console.log(a, b);
+// a has Hola! and b has Howdy
+
+
+```
+
+###'this'
 
 
