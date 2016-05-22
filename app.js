@@ -1,16 +1,6 @@
-var arr = [
-	1,
-	false,
-	{
-		name: "Tiffany",
-		address: "111 Main Street"
-	},
-	function(name) {
-		var greeting = "Hello";
-		console.log(greeting + " " + name)
-	},
-	"hello"
-];
+function test(one, two, three, ...param) {
+	console.log(param); // ["four", "five", "six"]
+	console.log(one, two, three); //  "one" "two" "three"
+}
 
-var greet = arr[3](arr[2].name);
-console.log(greet);
+test("one", "two", "three", "four", "five", "six");

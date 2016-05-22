@@ -6,6 +6,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 
 ###Big Words
 
+* **Arguments** - The parameters you pass to a function.
 * **Associativity** - What order *operator* functions get called in (left-to-right or right-to-left)
 * **Asynchronous** - More than one at a time.
 * **Coercion** - Converting a value from one type to another
@@ -686,7 +687,7 @@ Previously we used to use *XML*, which looked something like this:
 
 ```
 
-This took up a lot of bandwidth to send data this way. Then people realized that the JavaScript object seemed like a good way to format data going to the server and took up a lot less space/bandwidth. **JSON** looks like a javascript object, but it's wrapped in quotes because parcers expect it.
+This took up a lot of bandwidth to send data this way. Then people realized that the JavaScript object seemed like a good way to format data going to the server and took up a lot less space/bandwidth. **JSON** looks like a javascript object, but it's wrapped in quotes because parsers expect it.
 
 ```
 {
@@ -696,7 +697,7 @@ This took up a lot of bandwidth to send data this way. Then people realized that
 
 ```
 
-In order to add these quotes you can use `JSON.stringify()` to covert the object into a valid JSON onject. To convert it back you can use `JSON.parse()`. These are called *Object Literal* and *JSON String* See examples below that covert between JSON and Objects.
+In order to add these quotes you can use `JSON.stringify()` to covert the object into a valid JSON object. To convert it back you can use `JSON.parse()`. These are called *Object Literal* and *JSON String* See examples below that covert between JSON and Objects.
 
 ```
 var Tiffany = {
@@ -718,7 +719,7 @@ console.log(jsonTiffany, objectMary)
 
 * **First Class Functions** - Everything you can do with other types you can do with functions. Assign variables, pass them around, create them on the fly.
 
-Functions are Objects with special properties. You can attach *Primatives*, Objects, or functions to it. It also has a name (which is optional, you can also have an anonymous function) and it has it's *code* property.
+Functions are Objects with special properties. You can attach *Primitives*, Objects, or functions to it. It also has a name (which is optional, you can also have an anonymous function) and it has it's *code* property.
 
 
 ####Expressions vs Statements
@@ -738,7 +739,7 @@ Statement does work and expression results in a value
 
 A *function statement* creates a function with a name and a code property, while a *function expression* is a variable set equal to an anonymous function (does not have a name) and also has a code property. 
 
-The biggest difference is that the *function statement* can be called above itself because statment is created in the *creation stage* and is hoisted to the top, while the *function expression* will be created as a variable set to undefined in the *creation stage*, and if called before that line of code the function will be *undefined*
+The biggest difference is that the *function statement* can be called above itself because statement is created in the *creation stage* and is hoisted to the top, while the *function expression* will be created as a variable set to undefined in the *creation stage*, and if called before that line of code the function will be *undefined*
 
 
 ```
@@ -777,7 +778,7 @@ log(function() {
 
 ####By Value
 
-When you set a variable to the *primative* value of another variable, this takes up two spots in memory. Essetially a copy is made of the original value. The value is saved twice.
+When you set a variable to the *primitive* value of another variable, this takes up two spots in memory. Essentially a copy is made of the original value. The value is saved twice.
 
 In the example below both `a` and `b`, their values are both 1, but that value is saved in two memory spots. This is called *by value*
 
@@ -790,7 +791,7 @@ var b = a;
 
 ####By Reference
 
-Objects and functions (a type of object) will share spots in memory, the value is saved once. This means when you set a variable to a new variable, they will alter eachother if you alter one of them.
+Objects and functions (a type of object) will share spots in memory, the value is saved once. This means when you set a variable to a new variable, they will alter each other if you alter one of them.
 
 See the example below. Variable `a` and `b` are both saved in the same location. When you alter `b`'s name to karl (*mutate* it), it will also alter `a`'s. This causes both `a` and `b` to have the same value even if just one of them is altered after creations. This is called *by reference*
 
@@ -891,7 +892,7 @@ c.log();
 
 ```
 
-Some people consider the below a bug. `this` in the log function is the `c` object. But if you add a function within the *method* `this` becomes the Window object again. So when you do `this.name = newname` seen here, you are actually setting a newname variable onto the Window object, and now altering the name withing the c object.
+Some people consider the below a bug. `this` in the log function is the `c` object. But if you add a function within the *method* `this` becomes the Window object again. So when you do `this.name = newname` seen here, you are actually setting a newname variable onto the Window object, and now altering the name within the c object.
 
 ```
 var c = {
@@ -955,3 +956,96 @@ var greet = arr[3](arr[2].name);
 console.log(greet);
 
 ```
+
+
+###Arguments
+
+**Arguments** is a keyword that JavaScript sets up for you that contains all the parameters that you pass to a function. 
+
+
+In JavaScript, no error is thrown if call a function that requires variables (within reason). The below function will just log *undefined* three times if we don't pass the params
+
+
+```
+function test(one, two, three) {
+	console.log(one, two, three); //undefined undefined undefined
+}
+
+test();
+
+```
+
+You can also set default variable to your params. Below is the conventional way setting param variables using `||`. 
+
+```
+function test(one, two, three) {
+	one = one || "one";
+	two = two || "two";
+	three = three || "three";
+	console.log(one, two, three);
+}
+
+test("one", "two");
+
+
+```
+
+The new version of JavaScript (not yet supported in all browsers) will allow you to do this:
+
+```
+function test(one = "one", two = "two", three = "three") {
+	console.log(one, two, three);
+}
+
+test("one", "two");
+
+
+```
+
+
+If you call arguments, it returns it in an *array like* object. It mostly acts like an array but doesn't have all the features that arrays have.
+
+```
+function test(one, two, three) {
+	console.log(arguments);
+}
+
+test("one", "two", "three");
+// ["one", "two", "three"]
+
+```
+
+This means you can easily end a function if someone doesn't pass params that your function requires. This may be useful when writing your own language
+
+```
+function test(one, two, three) {
+	if(arguments.length === 0) {
+		console.log("Missing parameters!");
+		return;
+	}
+	console.log(one, two, three);
+}
+
+test();
+
+
+```
+
+####Spread Parameters
+
+This is the new way of doing arguments will allow you to tack on `...param` as an argument and use that param name to call the array of any additional arrays
+
+```
+function test(one, two, three, ...param) {
+	console.log(param); // ["four", "five", "six"]
+	console.log(one, two, three); //  "one" "two" "three"
+}
+
+test("one", "two", "three", "four", "five", "six");
+
+
+```
+
+
+###Function Overloading
+
