@@ -1049,3 +1049,75 @@ test("one", "two", "three", "four", "five", "six");
 
 ###Function Overloading
 
+Some languages allow you to have multiple functions of the same name but that take different numbers of parameters. This is called *function overloading*. This isn't really possible in JavaScript because functions are objects. There are other patterns that JavaScript uses to accomplish similar things.
+
+Below is a simple function using *if* statements to do different things depending on a parameters values
+
+```
+function greet(firstname, lastname, language) {
+		language = language || "en";
+		if(language == "en") {
+			console.log("Hello, " + firstname + " " + lastname);
+		}
+		if(language == "es") {
+			console.log("Hola, " + firstname + " " + lastname);
+		}
+}
+
+greet("John", "Doe", "en");
+greet("John", "Doe", "es");
+
+```
+
+Below is one pattern to accomplishing something similar to *function overloading*. You can create new functions that call the original function that will default certain values.
+
+See how `greetEnglish` is a new function that will call the `greet` with english at the param
+
+```
+function greet(firstname, lastname, language) {
+		language = language || "en";
+		if(language == "en") {
+			console.log("Hello, " + firstname + " " + lastname);
+		}
+		if(language == "es") {
+			console.log("Hola, " + firstname + " " + lastname);
+		}
+}
+
+function greetEnglish(firstname, lastname) {
+	greet(firstname, lastname, "en");
+}
+
+function greetSpanish(firstname, lastname) {
+	greet(firstname, lastname, "es")
+}
+
+greetEnglish("John", "Doe");
+greetSpanish("John", "Doe");
+
+```
+
+
+###Syntax Parsers
+
+The *Syntax Parser* will go character by character through your code to determine what it means. If something doesn't makes sense to it, it will throw an error.
+
+###Automatic Semicolon Insertion
+
+The *syntax parser* does something to try to be helpful, which is *Automatic Semicolon Insertion*. This is when the *syntax parser* This is when the js engine automatically injects semicolons. This, for example, you can normally not put a semicolon after *return*. The engine reads each character of return, and when it see the new line (invisible character) it will be oh you can't have more info on a new line, so lets add a semicolon.
+
+So semicolons aren't really *optional* like they sometimes seem to be, the engine just adds them for you.
+
+The below for example would return *undefined* because of *Automatic Semicolon Insertion*. If you were to bring the start of the object to the same line as return it would return the function
+
+```
+function getPerson() {
+	return 
+	{
+		firstname: "Tiffany"
+	}
+}
+
+getPerson();
+
+```

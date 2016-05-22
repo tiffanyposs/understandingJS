@@ -1,6 +1,32 @@
-function test(one, two, three, ...param) {
-	console.log(param); // ["four", "five", "six"]
-	console.log(one, two, three); //  "one" "two" "three"
+function greet(firstname, lastname, language) {
+		language = language || "en";
+		if(language == "en") {
+			console.log("Hello, " + firstname + " " + lastname);
+		}
+		if(language == "es") {
+			console.log("Hola, " + firstname + " " + lastname);
+		}
 }
 
-test("one", "two", "three", "four", "five", "six");
+function greetEnglish(firstname, lastname) {
+	greet(firstname, lastname, "en");
+}
+
+function greetSpanish(firstname, lastname) {
+	greet(firstname, lastname, "es")
+}
+
+greetEnglish("John", "Doe");
+greetSpanish("John", "Doe");
+
+
+
+
+function getPerson() {
+	return 
+	{
+		firstname: "Tiffany"
+	}
+}
+
+console.log(getPerson());
