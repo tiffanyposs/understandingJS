@@ -1,10 +1,10 @@
 ##Understanding Javascript
 
-Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
+Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthony Alicea*
 
 [Udemy Course Here](https://www.udemy.com/understand-javascript/learn/v4/overview)
 
-###Big Words
+###"Big Words"
 
 * **Arguments** - The parameters you pass to a function.
 * **Associativity** - What order *operator* functions get called in (left-to-right or right-to-left)
@@ -35,6 +35,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts**
 * **Synchronous Execution** - One at a time in order
 * **Syntax Parsers** - A program that reads your code and determines what it does and if its grammar/syntax is valid. Combs through you code character by character.
 * **Variable Environments** - Where the variables live and how they relate to each other in memory
+* **Whitespace** - Invisible characters that create literal "space" in your written code
 
 
 
@@ -1119,5 +1120,33 @@ function getPerson() {
 }
 
 getPerson();
+
+```
+
+
+###Whitespace
+
+Invisible characters that create literal "space" in your written code. JavaScript is very liberal when it comes to whitespace. A lot of frameworks are heavily coded and use a lot of whitespace. See below is perfectly valid syntax.
+
+```
+var 
+	// first name of person
+	firstname, 
+
+	// last name of person
+	lastname, 
+
+	// language spoken
+	language;
+
+
+var person {
+	// first name
+	firstname: "Tiffany",
+
+	// last name
+	// (always required)
+	lastname: "Poss"
+}
 
 ```
