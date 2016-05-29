@@ -1,3 +1,4 @@
+s
 ##Understanding Javascript
 
 Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthony Alicea*
@@ -1150,3 +1151,6 @@ var person {
 }
 
 ```
+
+
+###Immediately Invoked Functions
