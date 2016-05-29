@@ -1153,4 +1153,112 @@ var person {
 ```
 
 
-###Immediately Invoked Functions
+###Immediately Invoked Function Expressions (IIFE)
+
+Immediately Invoked Function Expressions is when you call a function immediately by adding parentheses to the end of where you create the function
+
+See below we pass the name param at the end of the function expression, then `greeting` holds the returned value of the function instead of the function itself
+
+```
+var greeting = function(name) {
+	return "Hello " + name;
+}("Tiffany");
+
+console.log(greeting);
+
+```
+
+
+You cannot just write a function outright like below. You will get an error `unexpected token (`. this is because it is expecting you to give the function a name.
+
+```
+
+function(name) {
+	console.log("hello ", name)
+}
+//error!
+
+```
+
+In javascript writing strings, numbers, or objects without setting them to a variable is perfectly valid javascript, even though it's completely useless. It does save them to memory though.
+
+To trick the syntax parser into executing a you can wrap your function in parentheses. Since parentheses are the grouping operator in Javascript, it will not recognize the expression as a function because of the parentheses. 
+
+```
+var firstname = "Tiffany";
+
+(function(name) {
+
+  var greeting = "Hello";
+  console.log(greeting + " " + name);
+
+})(firstname) //IIFE
+
+```
+
+Here is another example with an object:
+
+```
+(function(person) {
+	var greeting = person.greeting + ", my name is " + person.firstname + " " + person.lastname;
+	console.log(greeting)
+}({
+	greeting: "Hello",
+	firstname: "Tiffany",
+	lastname: "Poss"
+}));
+
+```
+
+**note** - that you can invoke this function inside or outside of the parentheses, both ways are correct. See the difference below:
+
+```
+(function(name){ console.log(name) })("Tiffany");
+(function(name){ console.log(name) }("Tiffany"));
+
+```
+
+####Why IIFEs are Safe
+
+When you wrap a function within a variable, it creates barrier between your variables and the global variable namespace. This will prevent any confusion with variables from other files etc. 
+
+Below greeting outside of the function would be "Hola". Imagine that this `greeting` variable was in a different file. By using the IIFE you can use a `greeting` variable in it's own context without having to worry about it overriding some other variable from another file or location.
+
+```
+var greeting = "Hola";
+
+(function() {
+	var greeting = "Hello";
+	console.log("function ---> ", greeting);
+})()
+
+console.log("global ---> ", greeting);
+
+```
+
+What if you do want to reference the _global_ object? Well that's easy, just pass it into as the function as a variable.
+
+See below we pass the window object to the IIFE as a param named global. We create our own variable greeting inside the function, and also override the existing window one using `global.greeting = "Bonjour"`, which changes the _window_ 's greeting variable to _Bonjour_ 
+
+Writing code like this makes your resetting of the global variable intentional not accidental
+
+```
+var greeting = "Hola";
+
+(function(global) {
+  console.log(global.greeting) // #1 Hola
+  var greeting = "Hello";
+
+  //resets the global variable
+  global.greeting = "Bonjour";
+
+  console.log("function ---> ", greeting); // #2 Hello
+  console.log(greeting) // # 3 Hello
+})(window)
+
+console.log("global ---> ", greeting);  // #4 Bonjour
+
+```
+
+
+

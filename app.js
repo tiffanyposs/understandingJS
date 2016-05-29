@@ -1,19 +1,19 @@
-var 
-	// first name of person
-	firstname, 
+var greeting = "Hola";
 
-	// last name of person
-	lastname, 
+(function(global) {
+	console.log(global.greeting) // #1 Hola
+	var greeting = "Hello";
 
-	// language spoken
-	language;
+	//resets the global variable
+	global.greeting = "Bonjour";
+
+	console.log("function ---> ", greeting); // #2 Hello
+	console.log(greeting) // # 3 Hello
+})(window)
+
+console.log("global ---> ", greeting);  // #4 Bonjour
 
 
-var person {
-	// first name
-	firstname: "Tiffany",
 
-	// last name
-	// (always required)
-	lastname: "Poss"
-}
+
+
