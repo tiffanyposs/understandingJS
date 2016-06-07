@@ -1,4 +1,3 @@
-s
 ##Understanding Javascript
 
 Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthony Alicea*
@@ -1261,4 +1260,111 @@ console.log("global ---> ", greeting);  // #4 Bonjour
 ```
 
 
+###Closures
 
+Closures are when you return a function but the namespace still exists from the orginal function. This allows you to call the top level function and pass it a variale, which then can be used later when you call the returned function.
+
+See below `greet` function returns a function. You can pass a variable and set it to a variable, then call the internal function. See how `frenchGreet("Tiffany")` returns "Bonjour Tiffany".
+
+```
+function greet(whattosay) {
+	return function(name) {
+		console.log(whattosay + " " + name);
+	}
+}
+
+greet("Hi")("Tiffany"); //Hi Tiffany
+
+var spanishGreet = greet("Hola");
+var englishGreet = greet("Hello");
+var frenchGreet = greet("Bonjour");
+
+frenchGreet("Tiffany"); //Bonjour Tiffany
+
+```
+
+
+This is the classic example, where you are pushing functions into an array within a for loop. One may think that calling `fs` will return `0, 1, 2` but actually since they are called after and `i` doesn't exist within it's own function it looks to the outer function for the `i`. At the time the functions are called `i` is equal to `3` since the for loop completed. 
+
+```
+function buildFunctions() {
+
+	var arr = [];
+
+	for(var i = 0; i < 3; i++) {
+		arr.push(
+			function() {
+				console.log(i);
+			}
+		)
+	}
+
+	return arr
+
+}
+
+var fs = buildFunctions();
+
+fs[0](); // 3
+fs[1](); // 3
+fs[2](); // 3
+
+```
+
+
+There are a few work arounds. You can IIFE the function creating it's own variable with the current value of `i` (`j` below). This is the old ES5 way:
+
+```
+function buildFunctions2() {
+
+	var arr = [];
+
+	for(var i = 0; i < 3; i++) {
+		arr.push(
+			(function(j) {
+				return function() {
+					console.log(j);
+				}
+			}(i))
+		);
+	}
+	return arr
+
+}
+
+var fs2 = buildFunctions2();
+
+fs2[0](); // 0
+fs2[1](); // 1
+fs2[2](); // 2
+
+```
+
+
+Now with ES6 you can create a context within a block (within the if statement) using `let`.
+
+```
+
+function buildFunctions2() {
+
+	var arr = [];
+
+	for(var i = 0; i < 3; i++) {
+		let j = i;
+		arr.push(
+			function() {
+				console.log(j)
+			}
+		);
+	}
+	return arr
+
+}
+
+var fs2 = buildFunctions2();
+
+fs2[0](); // 0
+fs2[1](); // 1
+fs2[2](); // 2
+
+```

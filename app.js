@@ -1,19 +1,60 @@
-var greeting = "Hola";
+// function greet(whattosay) {
+// 	return function(name) {
+// 		console.log(whattosay + " " + name);
+// 	}
+// }
 
-(function(global) {
-	console.log(global.greeting) // #1 Hola
-	var greeting = "Hello";
+// greet("Hi")("Tiffany"); //Hi Tiffany
 
-	//resets the global variable
-	global.greeting = "Bonjour";
+// var spanishGreet = greet("Hola");
+// var englishGreet = greet("Hello");
+// var frenchGreet = greet("Bonjour");
 
-	console.log("function ---> ", greeting); // #2 Hello
-	console.log(greeting) // # 3 Hello
-})(window)
-
-console.log("global ---> ", greeting);  // #4 Bonjour
-
+// frenchGreet("Tiffany"); //Bonjour Tiffany
 
 
 
+// function buildFunctions() {
 
+// 	var arr = [];
+
+// 	for(var i = 0; i < 3; i++) {
+// 		arr.push(
+// 			function() {
+// 				console.log(i);
+// 			}
+// 		)
+// 	}
+
+// 	return arr
+
+// }
+
+// var fs = buildFunctions();
+
+// fs[0](); // 3
+// fs[1](); // 3
+// fs[2](); // 3
+
+
+
+function buildFunctions2() {
+
+	var arr = [];
+
+	for(let i = 0; i < 3; i++) {
+		arr.push(
+			function() {
+				console.log(i)
+			}
+		);
+	}
+	return arr
+
+}
+
+var fs2 = buildFunctions2();
+
+fs2[0](); // 0
+fs2[1](); // 1
+fs2[2](); // 2
