@@ -1,60 +1,59 @@
-// function greet(whattosay) {
-// 	return function(name) {
-// 		console.log(whattosay + " " + name);
+// function makeGreeting(language) {
+
+// 	return function(firstname, lastname) {
+
+// 		if(language === 'en') {
+// 			console.log('Hello ' + firstname + ' ' + lastname)
+// 		}
+
+// 		if(language === 'es') {
+// 			console.log('Hola ' + firstname + ' ' + lastname)
+// 		}
+
 // 	}
-// }
-
-// greet("Hi")("Tiffany"); //Hi Tiffany
-
-// var spanishGreet = greet("Hola");
-// var englishGreet = greet("Hello");
-// var frenchGreet = greet("Bonjour");
-
-// frenchGreet("Tiffany"); //Bonjour Tiffany
-
-
-
-// function buildFunctions() {
-
-// 	var arr = [];
-
-// 	for(var i = 0; i < 3; i++) {
-// 		arr.push(
-// 			function() {
-// 				console.log(i);
-// 			}
-// 		)
-// 	}
-
-// 	return arr
 
 // }
 
-// var fs = buildFunctions();
+// var greetEnglish = makeGreeting('en');
+// var greetSpanish = makeGreeting('es');
 
-// fs[0](); // 3
-// fs[1](); // 3
-// fs[2](); // 3
+// greetEnglish('Jane', 'Doe');
+// greetSpanish('John', 'Doe');
+
+
+// function sayHiLater() {
+
+// 	var greeting = "Hi!";
+
+// 	setTimeout(function() {
+
+// 		console.log(greeting)
+
+// 	}, 3000);
+
+// }
+
+// sayHiLater();
 
 
 
-function buildFunctions2() {
 
-	var arr = [];
 
-	for(let i = 0; i < 3; i++) {
-		arr.push(
-			function() {
-				console.log(i)
-			}
-		);
-	}
-	return arr
+function tellMeWhenDone(callback) {
+	var a = 1000;
+	var b = 2000;
 
+	callback();
 }
 
-var fs2 = buildFunctions2();
+tellMeWhenDone(function() {
 
-fs2[0](); // 0
-fs2[1](); // 1
-fs2[2](); // 2
+	alert("I am done!")
+	
+});
+
+tellMeWhenDone(function() {
+
+	console.log("I am done!")
+
+});

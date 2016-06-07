@@ -9,6 +9,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
 * **Arguments** - The parameters you pass to a function.
 * **Associativity** - What order *operator* functions get called in (left-to-right or right-to-left)
 * **Asynchronous** - More than one at a time.
+* **Callback Function** - A function you give to another function to be run when the other function is finished
 * **Coercion** - Converting a value from one type to another
 * **Dynamic Typing** - You don't tell the engine what type of data a variable holds, it figures it out while your code is running. This means you don't have tell the code what datatype it's supposed to be.
 * **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
@@ -1366,5 +1367,72 @@ var fs2 = buildFunctions2();
 fs2[0](); // 0
 fs2[1](); // 1
 fs2[2](); // 2
+
+```
+
+
+####Function Factories & Closures
+
+You can also create *function factories* using closures. Below is an example on how you could use a closure to create a greeting function factory.
+
+```
+
+function makeGreeting(language) {
+
+	return function(firstname, lastname) {
+
+		if(language === 'en') {
+			console.log('Hello ' + firstname + ' ' + lastname)
+		}
+
+		if(language === 'es') {
+			console.log('Hola ' + firstname + ' ' + lastname)
+		}
+
+	}
+
+}
+
+var greetEnglish = makeGreeting('en');
+var greetSpanish = makeGreeting('es');
+
+greetEnglish('Jane', 'Doe');
+greetSpanish('John', 'Doe');
+
+
+```
+
+####Callbacks
+
+A callback function is a function you give to another function to be run when the other function is finished. An example of this is `setTimeout`, which is built into JavaScript. You pass it a *callback function*:
+
+```
+setTimeout(function() {
+  console.log("This is a callback function");
+}, 3000)
+
+```
+
+Here is an example of how you can build your own callback function:
+
+```
+function tellMeWhenDone(callback) {
+	var a = 1000;
+	var b = 2000;
+
+	callback();
+}
+
+tellMeWhenDone(function() {
+
+	alert("I am done!")
+	
+});
+
+tellMeWhenDone(function() {
+
+	console.log("I am done!")
+
+});
 
 ```
