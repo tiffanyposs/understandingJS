@@ -1571,3 +1571,76 @@ var multiplyByTwo = multiply.bind(this, 2);
 console.log(multiplyByTwo(5)); // 10
 
 ```
+
+
+###Functional Programming
+
+Segmenting code into functions so that it is cleaner.
+
+Below is an example of how you could make a mapping function that takes an array and function and it will map over the elements and apply the function you pass to it to each individual item within the array.
+
+```
+function mapForEach(arr, fn) {
+	var newArray = [];
+	for(var i = 0; i < arr.length; i++) {
+		newArray.push(
+			fn(arr[i])
+		);
+	}
+	return newArray;
+}
+
+var array = [1,2,3];
+
+var doubleArray = mapForEach(array, function(num) {
+	return num * 2;
+});
+
+var isGreaterThanTwo = mapForEach(array, function(num) {
+	return num > 2;
+});
+
+console.log(doubleArray); // [2, 4, 6]
+console.log(isGreaterThanTwo); // [false, false, true]
+
+```
+
+
+You can take that further by using `.bind` and closures to make your code even more functional
+
+```
+function mapForEach(arr, fn) {
+	var newArray = [];
+	for(var i = 0; i < arr.length; i++) {
+		newArray.push(
+			fn(arr[i])
+		);
+	}
+	return newArray;
+}
+
+var array = [1,2,3]
+
+//first example
+var checkPastLimit = function(limiter, item) {
+	return item > limiter;
+}
+
+var arr4 = mapForEach(array, checkPastLimit.bind(this, 1))
+console.log(arr4); // [false, true, true]
+
+
+
+//second example
+var checkPastLimitSimplifed = function(limiter) {
+	return function(limiter, item) {
+		return item > limiter;
+	}.bind(this, limiter);
+}
+
+
+var arr5 = mapForEach(array, checkPastLimitSimplifed(2));
+console.log(arr5) // [false, false, true]
+
+
+```
