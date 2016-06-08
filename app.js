@@ -1,59 +1,30 @@
-// function makeGreeting(language) {
-
-// 	return function(firstname, lastname) {
-
-// 		if(language === 'en') {
-// 			console.log('Hello ' + firstname + ' ' + lastname)
-// 		}
-
-// 		if(language === 'es') {
-// 			console.log('Hola ' + firstname + ' ' + lastname)
-// 		}
-
-// 	}
-
-// }
-
-// var greetEnglish = makeGreeting('en');
-// var greetSpanish = makeGreeting('es');
-
-// greetEnglish('Jane', 'Doe');
-// greetSpanish('John', 'Doe');
-
-
-// function sayHiLater() {
-
-// 	var greeting = "Hi!";
-
-// 	setTimeout(function() {
-
-// 		console.log(greeting)
-
-// 	}, 3000);
-
-// }
-
-// sayHiLater();
-
-
-
-
-
-function tellMeWhenDone(callback) {
-	var a = 1000;
-	var b = 2000;
-
-	callback();
+var person = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	getFullName: function() {
+		var fullname = this.firstname + ' ' + this.lastname;
+		return fullname;
+	}
 }
 
-tellMeWhenDone(function() {
+var person2 = {
+	firstname: "Karl",
+	lastname: "Poss"
+}
 
-	alert("I am done!")
-	
-});
+console.log(person.getFullName.apply(person2));  // Karl Poss
 
-tellMeWhenDone(function() {
+console.log(person.getFullName());
 
-	console.log("I am done!")
 
-});
+
+
+
+
+function multiply(a, b) {
+	return a*b
+}
+
+var multiplyByTwo = multiply.bind(this, 2);
+
+console.log(multiplyByTwo(5)); // 10

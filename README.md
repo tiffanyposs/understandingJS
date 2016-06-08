@@ -11,6 +11,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
 * **Asynchronous** - More than one at a time.
 * **Callback Function** - A function you give to another function to be run when the other function is finished
 * **Coercion** - Converting a value from one type to another
+* **Currying** - Creating a copy of a function but with some preset params
 * **Dynamic Typing** - You don't tell the engine what type of data a variable holds, it figures it out while your code is running. This means you don't have tell the code what datatype it's supposed to be.
 * **Execution Contexts** - A wrapper that helps manage the code that is running. It can contain things beyond what you have written in your code. Any script that you have is wrapped in a execution script. This has two phases.
   * **Creation Phase** - First the engine sets up `Memory Space` for Variables and Functions. All variables in JavaScript are initially set to *undefined* before their actual value is set while functions are set in the memory in entirety.
@@ -1434,5 +1435,139 @@ tellMeWhenDone(function() {
 	console.log("I am done!")
 
 });
+
+```
+
+###apply(), bind(), and call()
+
+apply, bind, and call are built in methods that you can call on a functions. Remember a function is just an object. All three of these have to do with the *this* variable.
+
+####.bind()
+
+Take below as an example with *bind*. You have a regular `person` object with a method inside. Then you have a function named `logName`. If you just call `logName` *this* is attached to the global object and will error because `.getFullName` does not exist. When you use `bind` you can attach an object to function, and *this* becomes whatever you pass to it.
+
+So when you create `logPersonName` you are making a copy of `logName` and binding the `person` object to it. So *this* becomes the `person` object.
+
+```
+var person = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	getFullName: function() {
+		var fullname = this.firstname + ' ' + this.lastname;
+		return fullname;
+	}
+}
+
+var logName = function(lang1, lang2) {
+
+	console.log('Logged: ' + this.getFullName())
+
+}
+
+var logPersonName = logName.bind(person);
+
+logPersonName(); // Logged: Tiffany Poss
+
+logName(); //error
+
+```
+
+####.call()
+
+Call allows you to pass an object to a function and call it at the same time. It's very similar to `.bind` except that it evokes the function. It does not make a copy like `.bind` does. Youc an also see you can pass it arguments.
+
+```
+var person = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	getFullName: function() {
+		var fullname = this.firstname + ' ' + this.lastname;
+		return fullname;
+	}
+}
+
+var logName = function(lang1, lang2) {
+
+	console.log('Logged: ' + this.getFullName());
+	console.log('Arguments ' + lang1 + ' ' + lang2);
+	console.log('<===============>')
+
+}
+
+
+
+logName.call(person, 'en', 'sp')
+
+
+```
+
+####.apply()
+
+`apply` is almost exactly the same as `call` except that apply wants to take an array as the arguments instead of one at at time:
+
+```
+var person = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	getFullName: function() {
+		var fullname = this.firstname + ' ' + this.lastname;
+		return fullname;
+	}
+}
+
+var logName = function(lang1, lang2) {
+
+	console.log('Logged: ' + this.getFullName());
+	console.log('Arguments ' + lang1 + ' ' + lang2);
+	console.log('<===============>')
+
+}
+
+logName.apply(person, ['english', 'spanish'])
+
+```
+
+
+####Function Borrowing & Function Currying
+
+#####Borrowing
+
+Function borrowing is when you borrow a function from another object. See `person2` doesn't have the `getFullName` method, but it can borrow it from `person` by using apply.
+
+```
+var person = {
+	firstname: "Tiffany",
+	lastname: "Poss",
+	getFullName: function() {
+		var fullname = this.firstname + ' ' + this.lastname;
+		return fullname;
+	}
+}
+
+var person2 = {
+	firstname: "Karl",
+	lastname: "Poss"
+}
+
+console.log(person.getFullName.apply(person2));  // Karl Poss
+
+console.log(person.getFullName());
+
+```
+
+#####Currying
+
+Currying is when you copy a function but with some pre-set params using `.bind`.
+
+Take the below example, we make a copy of the multiply function, we pass it *this* because in this case we want *this* to remain the global object, and we pass it 2. 2 will become the first param in the original function. Then you can call the copy of the function as normal but with only one param (ultimately b in this case)
+
+```
+function multiply(a, b) {
+	return a*b
+}
+
+var multiplyByTwo = multiply.bind(this, 2);
+
+console.log(multiplyByTwo(5)); // 10
 
 ```
