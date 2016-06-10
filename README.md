@@ -18,6 +18,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
   * **Execution Phase** - This is when the code actually runs.
 * **Expression** - a unit of code that results in a value.
 * **First Class Functions** - Everything you can do with other types you can do with functions. Assign variables, pass them around, create them on the fly.
+* **Inheritance** - One object gets access to the properties and methods of another object
 * **Immutable** - It cannot be changed.
 * **Invocation** - Running a function
 * **Lexical Environments** - Where something sits physically in the code you write. This exists in programming languages that it matters where something is located in  your code.
@@ -1644,3 +1645,34 @@ console.log(arr5) // [false, false, true]
 
 
 ```
+
+####underscore.js
+
+A great way to learn is by reading sourcecode. *Underscore* has some great commented sourcecode
+
+* [Underscore.js with Comments](http://underscorejs.org/docs/underscore.html)
+* [Lodash](https://lodash.com/)
+
+
+See below some small examples of using *underscore*
+
+```
+var arr1 = [1,2,3];
+
+var arr2 = _.map(arr1, function(item) { return item * 3 });
+console.log(arr2);
+
+var arr3 = _.filter([1,2,3,4,5,6,7], function(item) { return item % 2 === 0 });
+console.log(arr3);
+
+```
+
+
+###Object-Oriented JavaScript and Prototypal Inheritance
+
+Inheritance is when one object gets access to the properties and methods of another object. 
+
+
+Classical Inheritance is a way of sharing methods and objects. It's Verbose. It uses words like Friend, Protected, Private, Interface
+
+Prototypal Inheritance - Simple, Flexible, Extensible, Easy to Understand
