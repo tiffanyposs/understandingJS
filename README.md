@@ -33,6 +33,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
   * *number* - floating point number. 
   * *string* - sequence of characters
   * *symbol* - for ES6 and not widely used... yet...
+* **Reflection** - An object can look at itself, listing and changing its properties and methods
 * **Scope** - Where a variable is available in your code.
 * **Single Threaded** - One command is being executed at a time
 * **Synchronous Execution** - One at a time in order
@@ -1680,6 +1681,8 @@ Prototypal Inheritance - Simple, Flexible, Extensible, Easy to Understand
 
 ###Prototypes
 
+####Part 1
+
 All objects (including functions) in JavaScript have a *prototype* property. A *prototype* is simply a reference to another object. When you call a property on an object, it will first look within itself for that property, then it will look into it's *prototypes* for that property if it doesn't find it. This is called the *prototype chain*.
 
 `obj.__proto__` is a property that every object has. It has two underscores before and after so you don't mistakenly use it. Below is an example of how it works but **YOU SHOULD NEVER DO IT THIS WAY**
@@ -1719,3 +1722,63 @@ console.log(jane.lastname);  // Default
 * You set John's proto to person so it now has access to all of person's properties.
 * You can now call `john.getFullName()` and have access to that property and it gives the full name
 * When you create jane w/o a lastname and attach the person object as a prototype, it will default jane's last name to "Default".
+
+
+####Part 2
+
+If you create a variable with an empty *object*, *function*, or *array*, then inspect it in the dev console using `__proto__` you can see what the default proto is. If you start writing `.` after the `__proto__` you will be able to see the other methods that are attached to that proto. These are all the methods attached to that object type like `.forEach` and `.toString`. 
+
+
+###Reflection and Extend
+
+Reflecton is that an object can look at itself, listing and changing its properties and methods. In the below example you can see that we use the built in method `hasOwnProperty` which allow syou to check if an object that you added a prototype to has a property that actually belongs to itself, not from a proto.
+
+The second thing we do is use the *underscore.js* library to use it's `_.extend` method to add the property of other objects to the `john` object. You will see at the end, john contains all the properties that `jane` and `jim` had.
+
+ES6 will have an `extends` method that will be similar to the underscore one.
+
+```
+var person = {
+	firstname: 'Default',
+	lastname: 'Default',
+	getFullName: function() {
+		return this.firstname + ' ' + this.lastname
+	}
+}
+
+var john = {
+	firstname: 'John',
+	lastname: 'Doe'
+}
+
+//don't do this EVER! for demo only
+john.__proto__ = person;
+
+
+for(var prop in john) {
+	if( john.hasOwnProperty(prop) ){
+	  console.log(prop + ': ' + john[prop]);
+	}
+}
+
+var jane = {
+	address: '111 Main Street',
+	getFormalFullName: function() {
+		return this.lastname + ', ' + this.firstname;
+	}
+}
+
+
+var jim = {
+	getFirstName: function() {
+		return this.firstname;
+	}
+}
+
+_.extend(john, jane, jim);
+
+
+console.log(john);
+
+
+```
