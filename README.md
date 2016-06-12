@@ -1676,3 +1676,46 @@ Inheritance is when one object gets access to the properties and methods of anot
 Classical Inheritance is a way of sharing methods and objects. It's Verbose. It uses words like Friend, Protected, Private, Interface
 
 Prototypal Inheritance - Simple, Flexible, Extensible, Easy to Understand
+
+
+###Prototypes
+
+All objects (including functions) in JavaScript have a *prototype* property. A *prototype* is simply a reference to another object. When you call a property on an object, it will first look within itself for that property, then it will look into it's *prototypes* for that property if it doesn't find it. This is called the *prototype chain*.
+
+`obj.__proto__` is a property that every object has. It has two underscores before and after so you don't mistakenly use it. Below is an example of how it works but **YOU SHOULD NEVER DO IT THIS WAY**
+
+```
+var person = {
+	firstname: 'Default',
+	lastname: 'Default',
+	getFullName: function() {
+		return this.firstname + ' ' + this.lastname
+	}
+}
+
+var john = {
+	firstname: 'John',
+	lastname: 'Doe'
+}
+
+//don't do this EVER! for demo only
+john.__proto__ = person;
+console.log(john.getFullName());  // John Doe
+console.log(john.firstname);  // John
+
+
+
+var jane = {
+	firstname: 'Jane'
+}
+
+jane.__proto__ = person;
+console.log(jane.getFullName());  // Jane Default
+console.log(jane.lastname);  // Default
+
+
+```
+
+* You set John's proto to person so it now has access to all of person's properties.
+* You can now call `john.getFullName()` and have access to that property and it gives the full name
+* When you create jane w/o a lastname and attach the person object as a prototype, it will default jane's last name to "Default".
