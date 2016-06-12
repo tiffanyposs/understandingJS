@@ -18,6 +18,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
   * **Execution Phase** - This is when the code actually runs.
 * **Expression** - a unit of code that results in a value.
 * **First Class Functions** - Everything you can do with other types you can do with functions. Assign variables, pass them around, create them on the fly.
+* **Function Constructor** - a function that is used to construct objects.
 * **Inheritance** - One object gets access to the properties and methods of another object
 * **Immutable** - It cannot be changed.
 * **Invocation** - Running a function
@@ -1780,5 +1781,33 @@ _.extend(john, jane, jim);
 
 console.log(john);
 
+
+```
+
+
+###History of JavaScript and keyword "New"
+
+JavaScript is named what it is because at the time of it's creation there were a lot of companies competing to get their language mainstream. The *JavaScript* name was named purly to attract *Java* developers, which was a popular language at the time. Also *JavaScript* as written in a way so some of the syntax looked like Java, like the below example:
+
+```
+var john = new Person();
+
+```
+
+Take the below example which is a way to construct an object called a *function constructor*. You can have a function that creates properties using `this`, then you can call `new Person()`.  `new` is actually an *operator* which basically creates an empty object and also changes where *this* points to, which is the new empty object, then feeds the function into it creating all of the properties.
+
+```
+function Person(firstname, lastname) {
+	this.firstname = firstname;
+	this.lastname = lastname;
+	this.getFullName = function() {
+		return this.firstname + ' ' + this.lastname;
+	}
+}
+
+var john = new Person('John', 'Doe');
+
+console.log(john);
+console.log(john.getFullName());
 
 ```
