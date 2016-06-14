@@ -1,85 +1,47 @@
-// var arr1 = [1,2,3];
-
-// var arr2 = _.map(arr1, function(item) { return item * 3});
-// console.log(arr2);
-
-// var arr3 = _.filter([1,2,3,4,5,6,7], function(item) { return item % 2 === 0 });
-// console.log(arr3);
-
-
-// var person = {
-// 	firstname: 'Default',
-// 	lastname: 'Default',
-// 	getFullName: function() {
-// 		return this.firstname + ' ' + this.lastname
-// 	}
-// }
-
-// var john = {
-// 	firstname: 'John',
-// 	lastname: 'Doe'
-// }
-
-// //don't do this EVER! for demo only
-// john.__proto__ = person;
-
-
-// for(var prop in john) {
-// 	if( john.hasOwnProperty(prop) ){
-// 	  console.log(prop + ': ' + john[prop]);
-// 	}
-// }
-
-// var jane = {
-// 	address: '111 Main Street',
-// 	getFormalFullName: function() {
-// 		return this.lastname + ', ' + this.firstname;
-// 	}
-// }
-
-
-// var jim = {
-// 	getFirstName: function() {
-// 		return this.firstname;
-// 	}
-// }
-
-// _.extend(john, jane, jim);
-
-
-// console.log(john);
-
-
-
-
-
 function Person(firstname, lastname) {
 	this.firstname = firstname;
 	this.lastname = lastname;
-	this.getFullName = function() {
-		return this.firstname + ' ' + this.lastname;
-	}
+}
+
+Person.prototype.getFullName = function() {
+	return this.firstname + ' ' + this.lastname;
 }
 
 var john = new Person('John', 'Doe');
-
 console.log(john);
-console.log(john.getFullName());
+
+for(var prop in john) {
+	if( john.hasOwnProperty(prop) ){
+	  console.log(prop + ': ' + john[prop]);
+	}
+}
+
+console.log(john.__proto__);
 
 
 
-// console.log(john.getFullName());  // John Doe
-// console.log(john.firstname);  // John
+var num = new Number(3);
+console.log(num); // {[[PrimativeVlaue]] : 3 }
+console.log(num.toFixed()); // "3.00"
+
+var string = new String('John');
+console.log(string); // a very long object
+console.log(string.indexOf('0')); // 1
+
+//how to see the methods attached
+//by looking at the prototype
+console.log('Number ---> ', Number.prototype);
+console.log('String ---> ', String.prototype);
+console.log('Date ---> ', Date.prototype);
 
 
 
-// var jane = {
-// 	firstname: 'Jane'
-// }
+var name = "Tiffany";
 
-// jane.__proto__ = person;
-// console.log(jane.getFullName());  // Jane Default
-// console.log(jane.lastname);  // Default
+String.prototype.isLongerThan = function(limit) {
+	return this.length > limit;
+}
 
-
-
+console.log(name.isLongerThan(5)); // true
+console.log(name.isLongerThan(7)); // false
+console.log(name.isLongerThan(9)); // false

@@ -1267,7 +1267,7 @@ console.log("global ---> ", greeting);  // #4 Bonjour
 
 ###Closures
 
-Closures are when you return a function but the namespace still exists from the orginal function. This allows you to call the top level function and pass it a variale, which then can be used later when you call the returned function.
+Closures are when you return a function but the namespace still exists from the original function. This allows you to call the top level function and pass it a variable, which then can be used later when you call the returned function.
 
 See below `greet` function returns a function. You can pass a variable and set it to a variable, then call the internal function. See how `frenchGreet("Tiffany")` returns "Bonjour Tiffany".
 
@@ -1477,7 +1477,7 @@ logName(); //error
 
 ####.call()
 
-Call allows you to pass an object to a function and call it at the same time. It's very similar to `.bind` except that it evokes the function. It does not make a copy like `.bind` does. Youc an also see you can pass it arguments.
+Call allows you to pass an object to a function and call it at the same time. It's very similar to `.bind` except that it evokes the function. It does not make a copy like `.bind` does. You an also see you can pass it arguments.
 
 ```
 var person = {
@@ -1650,7 +1650,7 @@ console.log(arr5) // [false, false, true]
 
 ####underscore.js
 
-A great way to learn is by reading sourcecode. *Underscore* has some great commented sourcecode
+A great way to learn is by reading source code. *Underscore* has some great commented source code
 
 * [Underscore.js with Comments](http://underscorejs.org/docs/underscore.html)
 * [Lodash](https://lodash.com/)
@@ -1732,7 +1732,7 @@ If you create a variable with an empty *object*, *function*, or *array*, then in
 
 ###Reflection and Extend
 
-Reflecton is that an object can look at itself, listing and changing its properties and methods. In the below example you can see that we use the built in method `hasOwnProperty` which allow syou to check if an object that you added a prototype to has a property that actually belongs to itself, not from a proto.
+Reflection is that an object can look at itself, listing and changing its properties and methods. In the below example you can see that we use the built in method `hasOwnProperty` which allow you to check if an object that you added a prototype to has a property that actually belongs to itself, not from a proto.
 
 The second thing we do is use the *underscore.js* library to use it's `_.extend` method to add the property of other objects to the `john` object. You will see at the end, john contains all the properties that `jane` and `jim` had.
 
@@ -1787,7 +1787,7 @@ console.log(john);
 
 ###History of JavaScript and keyword "New"
 
-JavaScript is named what it is because at the time of it's creation there were a lot of companies competing to get their language mainstream. The *JavaScript* name was named purly to attract *Java* developers, which was a popular language at the time. Also *JavaScript* as written in a way so some of the syntax looked like Java, like the below example:
+JavaScript is named what it is because at the time of it's creation there were a lot of companies competing to get their language mainstream. The *JavaScript* name was named purely to attract *Java* developers, which was a popular language at the time. Also *JavaScript* as written in a way so some of the syntax looked like Java, like the below example:
 
 ```
 var john = new Person();
@@ -1811,3 +1811,95 @@ console.log(john);
 console.log(john.getFullName());
 
 ```
+
+###Function Constructors and ".prototype"
+
+
+In addition to all functions having an (optional) name property and a code property; all functions have a `prototype` property, but it is only used when you use a function constructor.
+
+Note that the prototype property of the function IS NOT the prototype of the function.
+
+When you use the `prototype` property, you are adding to *the* prototype of a function constructor object. By default the `__proto__` of of a function constructor contains a constructor object name. See below example:
+
+```
+function Person(firstname, lastname) {
+	this.firstname = firstname;
+	this.lastname = lastname;
+}
+
+Person.prototype.getFullName = function() {
+	return this.firstname + ' ' + this.lastname;
+}
+
+var john = new Person('John', 'Doe');
+console.log(john);
+
+for(var prop in john) {
+	if( john.hasOwnProperty(prop) ){
+	  console.log(prop + ': ' + john[prop]);
+	}
+}
+
+console.log(john.__proto__);
+
+```
+
+* `Person` constructor contains *firstname* and *lastname* properties.
+* Then we call `.prototype` to add the `getFullName` method to the prototype of any objects created using the function constructor method
+* We create `john`, which we loop through it's properties and we see that it `hasOwnProperty` of only *firstname* and *lastname*
+* When we log `john.__proto__`, you will see an object with `constructor`, `getFullName`, and it's `__proto__`
+
+####Why use prototype
+
+Why would you use `.prototype` instead of adding it directly to the object itself?
+
+1. It's beneficial because you can add methods to an object on the fly even after many function constructor objects are invoked.
+2. It takes up way less memory space. When you add a method as a `prototype` the method is saved only once in memory space, where as when you add it directly to the function constructor the method will be created in memory every time it is invoked.
+
+In the last example, if `getFullName` was inside of the original `Person` function constructor, the method would take up memory space for every *John and Jane* you create, where as if it's created as a `.prototype` it is only created once and referenced in memory.
+
+####Function Constructor Dangers
+
+If you forget to put the `new` keyword, your code will error and return undefined for those functions. You can use a *linter* to help identify issues. Also, the convention is that you **always** capitalize function constructor's name
+
+####Built-In Function constructors
+
+There are also some built in function constructors such as `new Number()`, `new String()`, and `new Date()` to name a few. These actually create an object not the number etc you pass to it. You can see though it has all the *methods* that a number, string, or date has. 
+
+You can view the methods by calling `.prototype` on the `Number` object etc.
+
+```
+
+var num = new Number(3);
+console.log(num); // {[[PrimativeVlaue]] : 3 }
+console.log(num.toFixed()); // "3.00"
+
+var string = new String('John');
+console.log(string); // a very long object
+console.log(string.indexOf('0')); // 1
+
+//how to see the methods attached
+//by looking at the prototype
+console.log('Number ---> ', Number.prototype);
+console.log('String ---> ', String.prototype);
+console.log('Date ---> ', Date.prototype);
+
+```
+
+Prototype comes in handy when creating new libraries, you can simply add a *prototype* to the String constructor to add methods for strings. See below I create a `isLongerThan` method.
+
+```
+var name = "Tiffany";
+
+String.prototype.isLongerThan = function(limit) {
+	return this.length > limit;
+}
+
+console.log(name.isLongerThan(5)); // true
+console.log(name.isLongerThan(7)); // false
+console.log(name.isLongerThan(9)); // false
+
+```
+
+*^ Note that this doesn't work for Number*
+
