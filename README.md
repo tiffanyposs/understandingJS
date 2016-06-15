@@ -1903,3 +1903,41 @@ console.log(name.isLongerThan(9)); // false
 
 *^ Note that this doesn't work for Number*
 
+
+####Danger of Built In Function Constructors
+
+Built in function constructors are dangerous because `==` returns true when compairing them to primatives, but `===` returns false. See below.
+
+```
+var a = 3;
+var b = new Number(3);
+
+console.log(a == b); //true
+console.log(a === b); //false
+
+var c = "hello";
+var d = new String("hello");
+
+console.log(c == d); //true
+console.log(c === d); //false
+
+```
+
+This also applies to the `new Date()` function constructor. If you're using a lot of dates, you might want to the library called [moment.js](http://momentjs.com/).
+
+####Danger of properties in Array objects
+
+If you loop through an array using properties, be careful! Remember that arrays are also objects. When you loop through using properties, the properties will be index numbers and the value will be the object at that index. This is why you can call `arr[0]` like you can an object. You run into issues when a library you add adds a prototype to the Array constructor.
+
+In the below example, adding the `somethingCool` property  to the Array object will cause looping through arrays in this way to include `somethingCool`, not just *John, Jane, and Jim*.
+
+```
+Array.prototype.somethingCool = "Cool!";
+
+var arr = ['John', 'Jane', 'Jim'];
+
+for(var prop in arr) {
+	console.log(prop + ': ', arr[prop]);
+}
+
+```
