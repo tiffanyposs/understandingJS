@@ -27,6 +27,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
 * **Namespace** - a container for variables and functions.
 * **Operator** - A special function that is syntactically (written) different. Generally take two params and return one result. i.e. `1 + 2`
 * **Operator Precedence** - Which *operator* gets called first
+* **Polyfill** - Code that adds a feature which the engine *may* lack.
 * **Primitive Type** - A type of data that represents a single value (not an object)
   * *undefined* - a lack of existence (you should not set a variable to this)
   * *null* - a lack of existence (you can set a variable to this)
@@ -38,6 +39,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
 * **Scope** - Where a variable is available in your code.
 * **Single Threaded** - One command is being executed at a time
 * **Synchronous Execution** - One at a time in order
+* **Syntactic Sugar** - A different way to *type* something that doesn't change how it works under the hood.
 * **Syntax Parsers** - A program that reads your code and determines what it does and if its grammar/syntax is valid. Combs through you code character by character.
 * **Variable Environments** - Where the variables live and how they relate to each other in memory
 * **Whitespace** - Invisible characters that create literal "space" in your written code
@@ -1941,3 +1943,80 @@ for(var prop in arr) {
 }
 
 ```
+
+
+###Object.create()
+
+The final way you can construct an object is by using the `Object.create()` method in JavaScript, which is available in most modern browsers:
+
+```
+var person = {
+	firstname: 'Default',
+	lastname: 'Default',
+	greet: function() {
+		return 'Hi ' + this.firstname;
+	}
+}
+
+var john = Object.create(person);
+console.log(john); // empty object with proto as person
+console.log(john.greet()); // Hi Default
+
+john.firstname = 'John';
+john.lastname = 'Doe';
+console.log(john); // object containing firstname and lastname w/ proto from person
+console.log(john.greet()); // Hi John
+
+```
+
+* first you create a n object with default settings and desired methods
+* Then you set a variable to `Object.create(whateverObj)`
+* This creates an empty object with a `__proto__` of the original object, this means that if you call the methods or properties of the original object it was created from, that new object will have access to those properties
+* From there you can set then new values of those properties manually
+* This is available in modern browsers
+
+####Older Browsers & Polyfill
+
+What if `.create` is not available in a browser you must support. The answer is `polyfill`, which is code that you add to add a feature which a JS engine *may* lack. For example for `.create` you might do something like this to create your own `.create` method that does the same thing if `.create` doesn't exist in the browser:
+
+```
+// polyfill
+if( !Object.create) {
+	Object.create = function(o) {
+		if(arguments.length > 1) {
+			throw new Error('Object.create implementation only accepts a first param')
+		}
+		function F() {};
+		F.prototype = o;
+		return new F();
+	}
+}
+
+```
+
+###ES6 and Classes
+
+In ES6, there will be a way to create objects. Classes are now a away to make objects in ES6. This is a type of *syntactic sugar*, it's just a different way to type it but doesn't change how things happen under the hood. Example syntax below:
+
+
+```
+
+class Person {
+
+  constructor(firstname, lastname) {
+	this.firstname = firstname;
+	this.lastname = lastname;
+  }
+
+  greet() {
+	return 'Hi ' + this.firstname;
+  }
+
+}
+
+var john = new Person('John', 'Doe')
+
+
+```
+
+ 

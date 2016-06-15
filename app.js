@@ -1,7 +1,17 @@
-Array.prototype.somethingCool = "Cool!";
+class Person {
 
-var arr = ['John', 'Jane', 'Jim'];
+	constructor(firstname, lastname) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
 
-for(var prop in arr) {
-	console.log(prop + ': ', arr[prop]);
+	greet() {
+		return 'Hi ' + this.firstname;
+	}
+
 }
+
+var john = new Person('John', 'Doe')
+
+
+
