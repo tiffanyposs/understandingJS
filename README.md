@@ -41,6 +41,7 @@ Notes from Udemy Course **JavaScript: Understanding the Weird Parts** by *Anthon
 * **Synchronous Execution** - One at a time in order
 * **Syntactic Sugar** - A different way to *type* something that doesn't change how it works under the hood.
 * **Syntax Parsers** - A program that reads your code and determines what it does and if its grammar/syntax is valid. Combs through you code character by character.
+* **Transpile** - Convert the syntax of one language to another.
 * **Variable Environments** - Where the variables live and how they relate to each other in memory
 * **Whitespace** - Invisible characters that create literal "space" in your written code
 
@@ -1908,7 +1909,7 @@ console.log(name.isLongerThan(9)); // false
 
 ####Danger of Built In Function Constructors
 
-Built in function constructors are dangerous because `==` returns true when compairing them to primatives, but `===` returns false. See below.
+Built in function constructors are dangerous because `==` returns true when comparing them to primitives, but `===` returns false. See below.
 
 ```
 var a = 3;
@@ -2019,4 +2020,98 @@ var john = new Person('John', 'Doe')
 
 ```
 
- 
+###Initialization
+
+Initialization is when you create an object using an object literal. This is a great way to create some fake data for your project without having to set up a database.
+
+```
+var people = [
+	{
+		firstname: 'John',
+		lastname: 'Doe',
+		addresses: [
+			'111 Main Street',
+			'123 Butterfly Street'
+		]
+	},
+	{
+		firstname: 'Jane',
+		lastname: 'Doe',
+		addresses: [
+			'111 Broadway',
+			'234 Baker Ave'
+		],
+		greet: function() {
+			return "Hello, " + this.firstname;
+		}
+	}
+]
+
+console.log(people[1].greet())
+
+``` 
+
+###typeof and instanceof
+
+`typeof` tells you what kind of object something is. `instanceof` will tell you if an object is an instance of a constructor.
+
+They all work normally as expected except for arrays, but theres a workaround, and checking the type of null, which weirdly returns an object. This is a bug in JS that they never fixed because so much code relies on work arounds for this. 
+
+```
+var a = 3;
+console.log(typeof a); // number
+var b = "Hello";
+console.log(typeof b); // string
+var c = {};
+console.log(typeof c); // object
+var d = [];
+console.log(typeof d); // object
+console.log(Object.prototype.toString.call(d)); // [object Array]
+
+
+function Person(name) {
+	this.name = name;
+}
+
+
+var jane = new Person("Jane");
+console.log(typeof jane); // object
+console.log(jane instanceof Person); // true
+
+console.log(typeof undefined); // undefined
+console.log(typeof null); // object (bug that was never fixed)
+
+```
+
+###Strict Mode
+
+Strict mode has more strict rules about what is allowed in the browser. It can be added to the top of a file or inside of a function at the top.
+
+Below throws an error with use strict if you have a typo and you try to set a variable without var.
+
+```
+"use strict";
+
+var person;
+
+persom = {};  // error
+console.log(persom);
+
+
+```
+You can also add use strict just to a function
+
+```
+var greet = "Hello";
+
+function sayGreet(name) {
+	"use strict";
+	hello = "Hello" // error
+	return hello + " " + name;
+}
+
+sayGreet("Tiffany")
+
+```
+
+Remember if you minify all of your js files together for a project if there is a use strict at the top of the first file it's going to apply to everything.
